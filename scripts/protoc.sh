@@ -12,9 +12,9 @@ cd proto
 
 for SERVICE_NAME in "order" "inventory" "payment"
 do
-protoc --go_out=./proto/golang --go_opt=paths=source_relative \
-  --go-grpc_out=./proto/golang --go-grpc_opt=paths=source_relative \
- ./proto/${SERVICE_NAME}/*.proto
+protoc --go_out=./golang --go_opt=paths=source_relative \
+  --go-grpc_out=./golang --go-grpc_opt=paths=source_relative \
+ ./${SERVICE_NAME}/*.proto
 done
 
 git config --local user.name "github-actions[bot]"
