@@ -8,10 +8,8 @@ for SERVICE_NAME in "order" "inventory" "payment"
 do
 protoc --go_out=./proto/golang --go_opt=paths=source_relative \
   --go-grpc_out=./proto/golang --go-grpc_opt=paths=source_relative \
- ./${SERVICE_NAME}/*.proto
-cd proto/golang/${SERVICE_NAME}
-go mod init \
-  github.com/jackparsonss/grpc-monorepo/proto/golang/${SERVICE_NAME} || true
+ ./proto/${SERVICE_NAME}/*.proto
+cd proto/golang/${SERVICE_NAME} || true
 go mod tidy
 cd ../../../
 done
