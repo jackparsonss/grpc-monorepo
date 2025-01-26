@@ -3,10 +3,10 @@ name: Compile Protobufs to Go
 on:
   push:
     paths:
-      - "**/*.proto"
+      - "proto/**/*.proto"
   pull_request:
     paths:
-      - "**/*.proto"
+      - "proto/**/*.proto"
 
 permissions:
   contents: write
