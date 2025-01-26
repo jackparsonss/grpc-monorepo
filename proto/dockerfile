@@ -13,6 +13,8 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 # Stage 2: Final slim image
 FROM debian:bullseye-slim
 
+RUN apt-get update && apt-get install -y git
+
 # Install only the protobuf compiler
 RUN apt-get update && apt-get install -y --no-install-recommends \
     protobuf-compiler \
