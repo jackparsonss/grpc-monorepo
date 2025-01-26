@@ -5,7 +5,7 @@ git fetch origin $GITHUB_HEAD_REF
 git checkout $GITHUB_HEAD_REF
 
 echo "Current Directory: $(pwd)"
-echo "REF: $(GITHUB_HEAD_REF)"
+echo "REF: $GITHUB_HEAD_REF"
 ls -la
 git status
 
