@@ -4,10 +4,6 @@
 git fetch origin $GITHUB_HEAD_REF
 git checkout $GITHUB_HEAD_REF
 
-sudo apt-get install -y protobuf-compiler golang-goprotobuf-dev
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-
 cd proto
 
 for SERVICE_NAME in "order" "inventory" "payment"
