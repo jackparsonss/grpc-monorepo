@@ -8,14 +8,13 @@ sudo apt-get install -y protobuf-compiler golang-goprotobuf-dev
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
+cd proto
+
 for SERVICE_NAME in "order" "inventory" "payment"
 do
 protoc --go_out=./proto/golang --go_opt=paths=source_relative \
   --go-grpc_out=./proto/golang --go-grpc_opt=paths=source_relative \
  ./proto/${SERVICE_NAME}/*.proto
-cd proto/golang/${SERVICE_NAME} || true
-go mod tidy
-cd ../../../
 done
 
 git config --local user.name "github-actions[bot]"
