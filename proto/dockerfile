@@ -1,0 +1,32 @@
+# Stage 1: Build
+FROM golang:1.23 AS builder
+
+# Install dependencies for protoc and plugins
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    protobuf-compiler \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Go plugins for protobuf
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
+    && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+# Stage 2: Final slim image
+FROM debian:bullseye-slim
+
+# Install only the protobuf compiler
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    protobuf-compiler \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy protoc-gen-go and protoc-gen-go-grpc binaries from the builder
+COPY --from=builder /go/bin/protoc-gen-go /usr/local/bin/protoc-gen-go
+COPY --from=builder /go/bin/protoc-gen-go-grpc /usr/local/bin/protoc-gen-go-grpc
+
+# Set PATH for Go binaries
+ENV PATH="/usr/local/bin:$PATH"
+
+# Set default working directory
+WORKDIR /workspace
+
+# Entry point for convenience
+ENTRYPOINT ["protoc"]

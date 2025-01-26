@@ -1,4 +1,4 @@
-name: Compile Protobufs to Go
+name: Compile Protobufs
 
 on:
   pull_request:
@@ -17,8 +17,15 @@ jobs:
         with:
           go-version: 1.23
       - uses: actions/checkout@v2
-      - name: "Generate for Golang"
-        shell: bash
-        run: |
-          chmod +x "${GITHUB_WORKSPACE}/scripts/protoc.sh"
-          ./scripts/protoc.sh
+      - name: "Generate for Golang with Docker"
+        uses: docker://jackpar/protoc
+        with:
+          args: |
+            bash -c "
+              chmod +x /workspace/scripts/protoc.sh &&
+              /workspace/scripts/protoc.sh
+            "
+        env:
+          GITHUB_WORKSPACE: /workspace
+        volumes:
+          - "${{ github.workspace }}:/workspace"
