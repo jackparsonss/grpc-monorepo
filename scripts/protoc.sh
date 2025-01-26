@@ -4,7 +4,7 @@
 git fetch origin $GITHUB_HEAD_REF
 git checkout $GITHUB_HEAD_REF
 
-git config --local --add safe.directory "$GITHUB_WORKSPACE"
+git config --global --add safe.directory /__w/grpc-monorepo/grpc-monorepo
 git config --local user.name "github-actions[bot]"
 git config --local user.email "github-actions[bot]@users.noreply.github.com"
 
