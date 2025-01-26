@@ -4,9 +4,6 @@ on:
   push:
     paths:
       - "proto/**/*.proto"
-  pull_request:
-    paths:
-      - "proto/**/*.proto"
 
 permissions:
   contents: write
