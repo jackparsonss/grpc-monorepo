@@ -11,9 +11,6 @@ jobs:
   protoc:
     name: "Generate"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: ["order", "payment", "inventory"]
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
@@ -26,4 +23,4 @@ jobs:
         shell: bash
         run: |
           chmod +x "${GITHUB_WORKSPACE}/scripts/protoc.sh"
-          ./scripts/protoc.sh ${{ matrix.service }} ${{ env.RELEASE_VERSION }}
+          ./scripts/protoc.sh
