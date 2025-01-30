@@ -8,7 +8,9 @@ message InventoryItem {
   string company = 3;
   string description = 4;
   string stock_count = 5;
-  optional int64 id = 6;
+  oneof optional_id {
+    int64 id = 6;
+  }
 }
 
 message CreateInventoryItemRequest {
