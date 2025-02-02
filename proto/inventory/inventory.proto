@@ -7,7 +7,7 @@ message InventoryItem {
   string title = 2;
   string company = 3;
   string description = 4;
-  string stock_count = 5;
+  int64 stock_count = 5;
   oneof optional_id {
     int64 id = 6;
   }
