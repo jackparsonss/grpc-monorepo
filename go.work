@@ -1,1 +1,11 @@
 go 1.23.5
+
+use (
+	./inventory
+	./order
+	./payment
+	./proto/golang/inventory
+	./proto/golang/order
+	./proto/golang/payment
+	./web-server
+)
