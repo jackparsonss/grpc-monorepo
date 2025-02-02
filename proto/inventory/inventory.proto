@@ -2,4 +2,34 @@ syntax = "proto3";
 
 option go_package = "github.com/jackparsonss/grpc-monorepo/proto/inventory";
 
-// trigger
+message InventoryItem {
+  float price = 1;
+  string title = 2;
+  string company = 3;
+  string description = 4;
+  int64 stock_count = 5;
+  oneof optional_id {
+    int64 id = 6;
+  }
+}
+
+message CreateInventoryItemRequest {
+  InventoryItem inventory_item = 1;
+}
+
+message CreateInventoryItemResponse {
+  int64 id = 1;
+}
+
+message GetInventoryItemRequest {
+  int64 id = 1;
+}
+
+message GetInventoryItemResponse {
+  InventoryItem inventory_item = 1;
+}
+
+service Inventory {
+  rpc CreateItem(CreateInventoryItemRequest) returns (CreateInventoryItemResponse){}
+  rpc GetItem(GetInventoryItemRequest) returns (GetInventoryItemResponse){}
+}

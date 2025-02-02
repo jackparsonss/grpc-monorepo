@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,24 +21,369 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type InventoryItem struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Price       float32                `protobuf:"fixed32,1,opt,name=price,proto3" json:"price,omitempty"`
+	Title       string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Company     string                 `protobuf:"bytes,3,opt,name=company,proto3" json:"company,omitempty"`
+	Description string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	StockCount  int64                  `protobuf:"varint,5,opt,name=stock_count,json=stockCount,proto3" json:"stock_count,omitempty"`
+	// Types that are valid to be assigned to OptionalId:
+	//
+	//	*InventoryItem_Id
+	OptionalId    isInventoryItem_OptionalId `protobuf_oneof:"optional_id"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InventoryItem) Reset() {
+	*x = InventoryItem{}
+	mi := &file_inventory_inventory_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InventoryItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InventoryItem) ProtoMessage() {}
+
+func (x *InventoryItem) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_inventory_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InventoryItem.ProtoReflect.Descriptor instead.
+func (*InventoryItem) Descriptor() ([]byte, []int) {
+	return file_inventory_inventory_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *InventoryItem) GetPrice() float32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *InventoryItem) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *InventoryItem) GetCompany() string {
+	if x != nil {
+		return x.Company
+	}
+	return ""
+}
+
+func (x *InventoryItem) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *InventoryItem) GetStockCount() int64 {
+	if x != nil {
+		return x.StockCount
+	}
+	return 0
+}
+
+func (x *InventoryItem) GetOptionalId() isInventoryItem_OptionalId {
+	if x != nil {
+		return x.OptionalId
+	}
+	return nil
+}
+
+func (x *InventoryItem) GetId() int64 {
+	if x != nil {
+		if x, ok := x.OptionalId.(*InventoryItem_Id); ok {
+			return x.Id
+		}
+	}
+	return 0
+}
+
+type isInventoryItem_OptionalId interface {
+	isInventoryItem_OptionalId()
+}
+
+type InventoryItem_Id struct {
+	Id int64 `protobuf:"varint,6,opt,name=id,proto3,oneof"`
+}
+
+func (*InventoryItem_Id) isInventoryItem_OptionalId() {}
+
+type CreateInventoryItemRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	InventoryItem *InventoryItem         `protobuf:"bytes,1,opt,name=inventory_item,json=inventoryItem,proto3" json:"inventory_item,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateInventoryItemRequest) Reset() {
+	*x = CreateInventoryItemRequest{}
+	mi := &file_inventory_inventory_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInventoryItemRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInventoryItemRequest) ProtoMessage() {}
+
+func (x *CreateInventoryItemRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_inventory_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInventoryItemRequest.ProtoReflect.Descriptor instead.
+func (*CreateInventoryItemRequest) Descriptor() ([]byte, []int) {
+	return file_inventory_inventory_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateInventoryItemRequest) GetInventoryItem() *InventoryItem {
+	if x != nil {
+		return x.InventoryItem
+	}
+	return nil
+}
+
+type CreateInventoryItemResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateInventoryItemResponse) Reset() {
+	*x = CreateInventoryItemResponse{}
+	mi := &file_inventory_inventory_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInventoryItemResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInventoryItemResponse) ProtoMessage() {}
+
+func (x *CreateInventoryItemResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_inventory_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInventoryItemResponse.ProtoReflect.Descriptor instead.
+func (*CreateInventoryItemResponse) Descriptor() ([]byte, []int) {
+	return file_inventory_inventory_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateInventoryItemResponse) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetInventoryItemRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInventoryItemRequest) Reset() {
+	*x = GetInventoryItemRequest{}
+	mi := &file_inventory_inventory_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInventoryItemRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInventoryItemRequest) ProtoMessage() {}
+
+func (x *GetInventoryItemRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_inventory_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInventoryItemRequest.ProtoReflect.Descriptor instead.
+func (*GetInventoryItemRequest) Descriptor() ([]byte, []int) {
+	return file_inventory_inventory_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetInventoryItemRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetInventoryItemResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	InventoryItem *InventoryItem         `protobuf:"bytes,1,opt,name=inventory_item,json=inventoryItem,proto3" json:"inventory_item,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInventoryItemResponse) Reset() {
+	*x = GetInventoryItemResponse{}
+	mi := &file_inventory_inventory_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInventoryItemResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInventoryItemResponse) ProtoMessage() {}
+
+func (x *GetInventoryItemResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_inventory_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInventoryItemResponse.ProtoReflect.Descriptor instead.
+func (*GetInventoryItemResponse) Descriptor() ([]byte, []int) {
+	return file_inventory_inventory_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetInventoryItemResponse) GetInventoryItem() *InventoryItem {
+	if x != nil {
+		return x.InventoryItem
+	}
+	return nil
+}
+
 var File_inventory_inventory_proto protoreflect.FileDescriptor
 
 var file_inventory_inventory_proto_rawDesc = string([]byte{
 	0x0a, 0x19, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x69, 0x6e, 0x76, 0x65,
-	0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x42, 0x37, 0x5a, 0x35, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6a, 0x61, 0x63, 0x6b, 0x70, 0x61,
-	0x72, 0x73, 0x6f, 0x6e, 0x73, 0x73, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2d, 0x6d, 0x6f, 0x6e, 0x6f,
-	0x72, 0x65, 0x70, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e,
-	0x74, 0x6f, 0x72, 0x79, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb9, 0x01, 0x0a, 0x0d,
+	0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x14, 0x0a,
+	0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x02, 0x52, 0x05, 0x70, 0x72,
+	0x69, 0x63, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d,
+	0x70, 0x61, 0x6e, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x70,
+	0x61, 0x6e, 0x79, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x74, 0x6f, 0x63, 0x6b, 0x5f, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x73, 0x74, 0x6f, 0x63,
+	0x6b, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x10, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x03, 0x48, 0x00, 0x52, 0x02, 0x69, 0x64, 0x42, 0x0d, 0x0a, 0x0b, 0x6f, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x69, 0x64, 0x22, 0x53, 0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x35, 0x0a, 0x0e, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f,
+	0x72, 0x79, 0x5f, 0x69, 0x74, 0x65, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e,
+	0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x0d, 0x69,
+	0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x22, 0x2d, 0x0a, 0x1b,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49,
+	0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x22, 0x29, 0x0a, 0x17, 0x47,
+	0x65, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x22, 0x51, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x35, 0x0a, 0x0e, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x5f,
+	0x69, 0x74, 0x65, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x49, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x0d, 0x69, 0x6e, 0x76, 0x65,
+	0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x32, 0x98, 0x01, 0x0a, 0x09, 0x49, 0x6e,
+	0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x49, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x1b, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e,
+	0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e,
+	0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0x40, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x18, 0x2e,
+	0x47, 0x65, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x00, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x6a, 0x61, 0x63, 0x6b, 0x70, 0x61, 0x72, 0x73, 0x6f, 0x6e, 0x73, 0x73, 0x2f,
+	0x67, 0x72, 0x70, 0x63, 0x2d, 0x6d, 0x6f, 0x6e, 0x6f, 0x72, 0x65, 0x70, 0x6f, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
-var file_inventory_inventory_proto_goTypes = []any{}
+var (
+	file_inventory_inventory_proto_rawDescOnce sync.Once
+	file_inventory_inventory_proto_rawDescData []byte
+)
+
+func file_inventory_inventory_proto_rawDescGZIP() []byte {
+	file_inventory_inventory_proto_rawDescOnce.Do(func() {
+		file_inventory_inventory_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_inventory_inventory_proto_rawDesc), len(file_inventory_inventory_proto_rawDesc)))
+	})
+	return file_inventory_inventory_proto_rawDescData
+}
+
+var file_inventory_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_inventory_inventory_proto_goTypes = []any{
+	(*InventoryItem)(nil),               // 0: InventoryItem
+	(*CreateInventoryItemRequest)(nil),  // 1: CreateInventoryItemRequest
+	(*CreateInventoryItemResponse)(nil), // 2: CreateInventoryItemResponse
+	(*GetInventoryItemRequest)(nil),     // 3: GetInventoryItemRequest
+	(*GetInventoryItemResponse)(nil),    // 4: GetInventoryItemResponse
+}
 var file_inventory_inventory_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: CreateInventoryItemRequest.inventory_item:type_name -> InventoryItem
+	0, // 1: GetInventoryItemResponse.inventory_item:type_name -> InventoryItem
+	1, // 2: Inventory.CreateItem:input_type -> CreateInventoryItemRequest
+	3, // 3: Inventory.GetItem:input_type -> GetInventoryItemRequest
+	2, // 4: Inventory.CreateItem:output_type -> CreateInventoryItemResponse
+	4, // 5: Inventory.GetItem:output_type -> GetInventoryItemResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_inventory_inventory_proto_init() }
@@ -45,18 +391,22 @@ func file_inventory_inventory_proto_init() {
 	if File_inventory_inventory_proto != nil {
 		return
 	}
+	file_inventory_inventory_proto_msgTypes[0].OneofWrappers = []any{
+		(*InventoryItem_Id)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_inventory_inventory_proto_rawDesc), len(file_inventory_inventory_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   5,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_inventory_inventory_proto_goTypes,
 		DependencyIndexes: file_inventory_inventory_proto_depIdxs,
+		MessageInfos:      file_inventory_inventory_proto_msgTypes,
 	}.Build()
 	File_inventory_inventory_proto = out.File
 	file_inventory_inventory_proto_goTypes = nil
