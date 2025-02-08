@@ -16,5 +16,7 @@ func main() {
 
 	application := api.NewApplication(dbAdapter)
 	grpcAdapter := grpc.NewAdapter(application, config.GetApplicationPort())
+
+	log.Printf("Starting gRPC Server on port: %d\n", config.GetApplicationPort())
 	grpcAdapter.Run()
 }
