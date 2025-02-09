@@ -2,6 +2,7 @@ package inventory
 
 import (
 	"context"
+
 	"github.com/jackparsonss/grpc-monorepo/proto/golang/inventory"
 	"github.com/jackparsonss/grpc-monorepo/web-server/internal/application/domain"
 	"google.golang.org/grpc"

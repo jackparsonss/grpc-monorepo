@@ -1,10 +1,12 @@
 package config
 
 import (
-	_ "github.com/joho/godotenv/autoload"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func GetEnv() string {
@@ -12,7 +14,14 @@ func GetEnv() string {
 }
 
 func GetDatabaseURL() string {
-	return getEnvironmentValue("DATABASE_URL")
+	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s",
+		getEnvironmentValue("DB_USERNAME"),
+		getEnvironmentValue("DB_PASSWORD"),
+		getEnvironmentValue("DB_HOST"),
+		getEnvironmentValue("DB_PORT"),
+		getEnvironmentValue("DB_DATABASE"),
+		getEnvironmentValue("DB_SCHEMA"),
+	)
 }
 
 func GetApplicationPort() int {

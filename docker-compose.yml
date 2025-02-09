@@ -1,0 +1,56 @@
+services:
+  web-server:
+    image: jackpar/web-server:dev
+    ports:
+      - "${WEB_SERVER_PORT}:${WEB_SERVER_PORT}"
+    depends_on:
+      - inventory
+    environment:
+      - INVENTORY_SERVICE_URL=inventory:${INVENTORY_PORT}
+      - APPLICATION_PORT=${WEB_SERVER_PORT}
+      - ENV=${ENV}
+    networks:
+      - shared-network
+
+  inventory:
+    image: jackpar/inventory:dev
+    ports:
+      - "${INVENTORY_PORT}:${INVENTORY_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=${INVENTORY_DB_HOST}
+      - DB_PORT=${INVENTORY_DB_PORT}
+      - DB_DATABASE=${INVENTORY_DB_DATABASE}
+      - DB_USERNAME=${INVENTORY_DB_USERNAME}
+      - DB_PASSWORD=${INVENTORY_DB_PASSWORD}
+      - DB_SCHEMA=${INVENTORY_DB_SCHEMA}
+      - APPLICATION_PORT=${INVENTORY_PORT}
+      - ENV=${ENV}
+    networks:
+      - shared-network
+
+  db:
+    image: postgres:17
+    ports:
+      - "${INVENTORY_DB_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${INVENTORY_DB_DATABASE}
+      - POSTGRES_USER=${INVENTORY_DB_USERNAME}
+      - POSTGRES_PASSWORD=${INVENTORY_DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "db", "-p", "5432", "-d", "${INVENTORY_DB_DATABASE}", "-U", "${INVENTORY_DB_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared-network
+
+volumes:
+  postgres_data:
+
+networks:
+  shared-network:
